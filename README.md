@@ -1,2 +1,2 @@
-# kitchensink
-JEE Training 1
+# JEE Training 1
+Modify kitchensink project
