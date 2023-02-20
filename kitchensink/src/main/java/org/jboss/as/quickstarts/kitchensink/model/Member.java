@@ -54,8 +54,8 @@ public class Member implements Serializable {
     private String email;
 
     @NotNull
-    @Size(min = 10, max = 12)
-    @Digits(fraction = 0, integer = 12)
+    @Size(min = 8, max = 10)
+    @Digits(fraction = 0, integer = 10)
     @Column(name = "phone_number")
     private String phoneNumber;
 
