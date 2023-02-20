@@ -45,6 +45,17 @@
                 <h:inputText id="phoneNumber"
                     value="#{newMember.phoneNumber}" />
                 <h:message for="phoneNumber" errorClass="invalid" />
+                
+                <h:outputLabel for="username" value="Username:" />
+                <h:inputText id="username"
+                    value="#{newMember.username}" />
+                <h:message for="username" errorClass="invalid" />
+                
+                <h:outputLabel for="password" value="Password:" />
+                <h:inputSecret id="password"
+                    value="#{newMember.password}" />
+                <h:message for="password" errorClass="invalid" />
+                
             </h:panelGrid>
 
             <p>
