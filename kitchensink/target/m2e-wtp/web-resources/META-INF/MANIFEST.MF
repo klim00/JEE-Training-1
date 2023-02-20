@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 17
+Specification-Title: Quickstart: kitchensink
+Specification-Version: 27.0
+Specification-Vendor: JBoss by Red Hat
+Implementation-Title: Quickstart: kitchensink
+Implementation-Version: 27.0.2.Final-SNAPSHOT
+Implementation-Vendor: JBoss by Red Hat
+Created-By: Maven Integration for Eclipse
+Implementation-URL: https://github.com/wildfly/wildfly-quickstart-parent
+ /kitchensink
+Java-Vendor: Eclipse Adoptium
+Java-Version: 17.0.6
+Os-Arch: amd64
+Os-Name: Windows 10
+Os-Version: 10.0
+Scm-Connection: scm:git:git@github.com:jboss/jboss-parent-pom.git/wildfl
+ y-quickstart-parent/kitchensink
+Scm-Revision: 
+Scm-Url: http://github.com/jboss/jboss-parent-pom/wildfly-quickstart-par
+ ent/kitchensink
+
