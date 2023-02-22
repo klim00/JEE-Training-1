@@ -40,6 +40,9 @@ public class MemberController {
     @Inject
     private MemberRegistration memberRegistration;
     
+    @Inject
+    private MemberLogin memberLogin;
+    
     @Produces
     @Named
     private Member newMember;
@@ -49,8 +52,12 @@ public class MemberController {
         newMember = new Member();
     }
     
+    private boolean click = false;
+    
     public void register() throws Exception {
         try {
+        	memberLogin.setClick(false);
+        	click = true;
             memberRegistration.register(newMember);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
@@ -61,7 +68,7 @@ public class MemberController {
             facesContext.addMessage(null, m);
         }
     }
-    
+        
     private String getRootErrorMessage(Exception e) {
         // Default to general error message that registration failed.
         String errorMessage = "Registration failed. See server log for more information";
@@ -80,7 +87,14 @@ public class MemberController {
         // This is the root cause message
         return errorMessage;
     }
-
+    
+    public boolean getClick() {
+    	return click;
+    }
+    
+    public void setClick(boolean click) {
+    	this.click = click;
+    }
 }
 
 

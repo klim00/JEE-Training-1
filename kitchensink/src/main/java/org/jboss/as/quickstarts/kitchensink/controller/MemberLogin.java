@@ -25,11 +25,17 @@ public class MemberLogin{
     @Inject
     private FacesContext facesContext;
     
+    @Inject 
+    private MemberController memberController;
+    
     private String username;
     private String password;
+    private boolean click = false;
     
     public void authenticate() throws Exception {
         try {
+        	memberController.setClick(false);
+        	click = true;
         	log.info("function running");
             Member member = repository.findByUsername(username);
             log.info("."+password.equals(member.getPassword()));
@@ -61,5 +67,13 @@ public class MemberLogin{
 
     public void setPassword(String password){
         this.password = password;
+    }
+    
+    public boolean getClick() {
+    	return click;
+    }
+    
+    public void setClick(boolean click) {
+    	this.click = click;
     }
 }
