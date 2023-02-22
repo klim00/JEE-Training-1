@@ -64,11 +64,12 @@
                     <h:commandButton id="register"
                         action="#{memberController.register}"
                         value="Register" styleClass="register" />
-                    <h:message for="register" errorClass="invalid"/>
+                    <h:messages errorClass="invalid" infoClass="valid" rendered="#{memberController.click}"
+                    			globalOnly="true" showDetail="false" showSummary="true"/>
                 </h:panelGrid>
             </p>
         </h:form>
-        <h:form>
+        <h:form id="log">
         	<h2>Login to view member(s)</h2>
         	<h:panelGrid columns="2" columnClasses="titleCell">
 	  			<h:outputLabel for="username" value="Username:" />
@@ -80,7 +81,8 @@
 			
 			<h:panelGrid columns="2">
 	  			<h:commandButton value="Login" action="#{memberLogin.authenticate}" />
-	  			<h:message for="Login" errorClass="invalid"/>
+	  			<h:messages errorClass="invalid" infoClass="valid" rendered="#{memberLogin.click}"
+                   			globalOnly="true" showDetail="false" showSummary="true"/>
             </h:panelGrid>
 		</h:form>
     </ui:define>
