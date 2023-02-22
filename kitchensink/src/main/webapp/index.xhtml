@@ -30,8 +30,6 @@
 
         <h:form id="reg">
             <h2>Member Registration</h2>
-            <p>Enforces annotation-based constraints defined on the
-                model class.</p>
             <h:panelGrid columns="3" columnClasses="titleCell">
                 <h:outputLabel for="name" value="Name:" />
                 <h:inputText id="name" value="#{newMember.name}" />
@@ -56,6 +54,9 @@
                     value="#{newMember.password}" />
                 <h:message for="password" errorClass="invalid" />
                 
+                <h:outputLabel for="passwordRe" value="Retype Password:"/>
+                <h:inputSecret id="passwordRe"/>
+                <h:message for="passwordRe" errorClass="invalid"/>
             </h:panelGrid>
 
             <p>
@@ -63,21 +64,24 @@
                     <h:commandButton id="register"
                         action="#{memberController.register}"
                         value="Register" styleClass="register" />
-                    <h:messages styleClass="messages"
-                        errorClass="invalid" infoClass="valid"
-                        warnClass="warning" globalOnly="true" />
+                    <h:message for="register" errorClass="invalid"/>
                 </h:panelGrid>
             </p>
         </h:form>
         <h:form>
         	<h2>Login to view member(s)</h2>
-  			<h:outputLabel for="username" value="Username:" />
-  			<h:inputText id="username" value="#{memberLogin.username}" />
-
-  			<h:outputLabel for="password" value="Password:" />
-  			<h:inputSecret id="password" value="#{memberLogin.password}" />
-
-  			<h:commandButton value="Login" action="#{memberLogin.authenticate}" />
+        	<h:panelGrid columns="2" columnClasses="titleCell">
+	  			<h:outputLabel for="username" value="Username:" />
+	  			<h:inputText id="username" value="#{memberLogin.username}" />
+	
+	  			<h:outputLabel for="password" value="Password:" />
+	  			<h:inputSecret id="password" value="#{memberLogin.password}" />
+	  		</h:panelGrid>
+			
+			<h:panelGrid columns="2">
+	  			<h:commandButton value="Login" action="#{memberLogin.authenticate}" />
+	  			<h:message for="Login" errorClass="invalid"/>
+            </h:panelGrid>
 		</h:form>
     </ui:define>
 </ui:composition>
