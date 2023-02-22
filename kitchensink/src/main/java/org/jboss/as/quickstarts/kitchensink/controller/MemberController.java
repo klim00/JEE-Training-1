@@ -39,16 +39,16 @@ public class MemberController {
 
     @Inject
     private MemberRegistration memberRegistration;
-
+    
     @Produces
     @Named
     private Member newMember;
-
+   
     @PostConstruct
     public void initNewMember() {
         newMember = new Member();
     }
-
+    
     public void register() throws Exception {
         try {
             memberRegistration.register(newMember);
@@ -61,7 +61,7 @@ public class MemberController {
             facesContext.addMessage(null, m);
         }
     }
-
+    
     private String getRootErrorMessage(Exception e) {
         // Default to general error message that registration failed.
         String errorMessage = "Registration failed. See server log for more information";
@@ -82,3 +82,5 @@ public class MemberController {
     }
 
 }
+
+

@@ -64,7 +64,7 @@ public class MemberResourceRESTService {
 
     @Inject
     MemberRegistration registration;
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Member> listAllMembers() {
@@ -81,7 +81,7 @@ public class MemberResourceRESTService {
         }
         return member;
     }
-
+    
     /**
      * Creates a new member from the values provided. Performs validation, and will return a JAX-RS response with either 200 ok,
      * or with a map of fields, and related errors.
@@ -131,7 +131,7 @@ public class MemberResourceRESTService {
      *
      * @param member Member to be validated
      * @throws ConstraintViolationException If Bean Validation errors exist
-     * @throws ValidationException If member with the same email already exists
+     * @throws ValidationException If member with the same email/username already exists
      */
     private void validateMember(Member member) throws ConstraintViolationException, ValidationException {
         // Create a bean validator and check for issues.
@@ -144,6 +144,11 @@ public class MemberResourceRESTService {
         // Check the uniqueness of the email address
         if (emailAlreadyExists(member.getEmail())) {
             throw new ValidationException("Unique Email Violation");
+        }
+        
+        // Check the uniqueness of username
+        if (usernameAlreadyExists(member.getUsername()) ) {
+        	throw new ValidationException("Unique Username Violation");
         }
     }
 
@@ -170,7 +175,7 @@ public class MemberResourceRESTService {
      * Checks if a member with the same email address is already registered. This is the only way to easily capture the
      * "@UniqueConstraint(columnNames = "email")" constraint from the Member class.
      *
-     * @param email The email to check
+     * @param email: The email to check
      * @return True if the email already exists, and false otherwise
      */
     public boolean emailAlreadyExists(String email) {
@@ -182,4 +187,20 @@ public class MemberResourceRESTService {
         }
         return member != null;
     }
+    
+    /**
+     * Checks if a member with the same username is already registered. This is the only way to easily capture the
+     * "@UniqueConstraint(columnNames = "username")" constraint from the Member class.
+     *
+     * @param username The username to check
+     * @return True if the username already exists, and false otherwise
+     */
+    public boolean usernameAlreadyExists(String username) {
+    	Member member = null;
+    	try {
+    		member = repository.findByUsername(username);
+    	} catch (NoResultException e) {}
+    	return member != null;
+    }
+    
 }

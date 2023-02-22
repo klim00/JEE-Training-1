@@ -36,7 +36,10 @@ import jakarta.validation.constraints.NotEmpty;
 @SuppressWarnings("serial")
 @Entity
 @XmlRootElement
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
+@Table(uniqueConstraints = {
+		@UniqueConstraint(columnNames = "email"),
+		@UniqueConstraint(columnNames = "username")
+})
 public class Member implements Serializable {
 
     @Id
@@ -65,7 +68,7 @@ public class Member implements Serializable {
 
     @NotNull
     @Size(min = 10, message = "Password length must be at least 10")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$", message = "Password must have an uppercase letter, special character, and number")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[!@#$&*-_])(?=.*[0-9]).{8,}$", message = "Password must have an uppercase letter, special character, and number")
     private String password;
 
     public Long getId() {
@@ -114,5 +117,6 @@ public class Member implements Serializable {
 
      public void setPassword(String password){
          this.password = password;
-     }
+     }    
 }
+
