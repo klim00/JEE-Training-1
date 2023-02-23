@@ -36,9 +36,7 @@ public class MemberLogin{
         try {
         	memberController.setClick(false);
         	click = true;
-        	log.info("function running");
             Member member = repository.findByUsername(username);
-            log.info("."+password.equals(member.getPassword()));
             if(member!=null && password.equals(member.getPassword()))
             {
             	ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

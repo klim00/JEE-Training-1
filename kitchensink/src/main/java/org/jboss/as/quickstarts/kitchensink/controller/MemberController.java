@@ -23,6 +23,8 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.validation.constraints.NotNull;
+import java.util.logging.Logger;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
@@ -34,6 +36,9 @@ import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
 @Model
 public class MemberController {
 
+	@Inject 
+	Logger log;
+	
     @Inject
     private FacesContext facesContext;
 
@@ -46,23 +51,30 @@ public class MemberController {
     @Produces
     @Named
     private Member newMember;
-   
+    
     @PostConstruct
     public void initNewMember() {
         newMember = new Member();
     }
     
+    @NotNull
+    private String passwordVal;
     private boolean click = false;
     
     public void register() throws Exception {
-        try {
+    	try {
         	memberLogin.setClick(false);
         	click = true;
             memberRegistration.register(newMember);
+        	if (!passwordVal.equals(newMember.getPassword())) {
+            	FacesContext.getCurrentInstance().addMessage("reg:passwordVal", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Password does not match"));
+            	throw new Exception("Password Violation");
+        	}
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
             initNewMember();
         } catch (Exception e) {
+        	log.info("here");
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");
             facesContext.addMessage(null, m);
@@ -86,6 +98,14 @@ public class MemberController {
         }
         // This is the root cause message
         return errorMessage;
+    }
+
+    public String getPasswordVal() {
+        return passwordVal;
+    }
+
+    public void setPasswordVal(String passwordVal){
+        this.passwordVal = passwordVal;
     }
     
     public boolean getClick() {

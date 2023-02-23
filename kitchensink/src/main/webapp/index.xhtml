@@ -54,6 +54,10 @@
                     value="#{newMember.password}" />
                 <h:message for="password" errorClass="invalid" />
                 
+                <h:outputLabel for="passwordVal" value="Password:" />
+                <h:inputSecret id="passwordVal"
+                    value="#{memberController.passwordVal}" />
+                <h:message for="passwordVal" errorClass="invalid" />
             </h:panelGrid>
 
             <p>

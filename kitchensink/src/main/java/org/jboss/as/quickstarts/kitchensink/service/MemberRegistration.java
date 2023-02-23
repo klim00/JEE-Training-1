@@ -23,6 +23,7 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import java.util.logging.Logger;
+import org.jboss.as.quickstarts.kitchensink.controller.MemberController;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
@@ -30,7 +31,10 @@ public class MemberRegistration {
 
     @Inject
     private Logger log;
-
+    
+    @Inject 
+    MemberController memberController;
+    
     @Inject
     private EntityManager em;
 
@@ -38,8 +42,10 @@ public class MemberRegistration {
     private Event<Member> memberEventSrc;
 
     public void register(Member member) throws Exception {
-        log.info("Registering " + member.getUsername());
-        em.persist(member);
-        memberEventSrc.fire(member);
+    	if (memberController.getPasswordVal().equals(member.getPassword())) {
+    		log.info("Registering " + member.getUsername());
+            em.persist(member);
+            memberEventSrc.fire(member);
+    	}
     }
 }

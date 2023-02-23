@@ -43,6 +43,7 @@ import jakarta.ws.rs.core.Response;
 import org.jboss.as.quickstarts.kitchensink.data.MemberRepository;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
+import org.jboss.as.quickstarts.kitchensink.controller.MemberController;
 
 /**
  * JAX-RS Example
@@ -65,6 +66,8 @@ public class MemberResourceRESTService {
     @Inject
     MemberRegistration registration;
     
+    @Inject
+    MemberController memberController;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Member> listAllMembers() {
@@ -96,7 +99,6 @@ public class MemberResourceRESTService {
         try {
             // Validates member using bean validation
             validateMember(member);
-
             registration.register(member);
 
             // Create an "ok" response
@@ -133,10 +135,15 @@ public class MemberResourceRESTService {
      * @throws ConstraintViolationException If Bean Validation errors exist
      * @throws ValidationException If member with the same email/username already exists
      */
-    private void validateMember(Member member) throws ConstraintViolationException, ValidationException {
-        // Create a bean validator and check for issues.
+    private void validateMember(Member member) throws Exception, ConstraintViolationException, ValidationException {
+        if(!memberController.getPasswordVal().equals(member.getPassword()))
+        {
+        	throw new Exception("Password Violation");
+        }
+    	
+    	// Create a bean validator and check for issues.
         Set<ConstraintViolation<Member>> violations = validator.validate(member);
-
+        
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(new HashSet<>(violations));
         }
@@ -202,5 +209,4 @@ public class MemberResourceRESTService {
     	} catch (NoResultException e) {}
     	return member != null;
     }
-    
 }
