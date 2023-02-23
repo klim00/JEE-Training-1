@@ -47,19 +47,20 @@ public class Member implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @NotNull
-    @Size(min = 1, max = 25)
+    @NotNull(message="Name must not be empty")
+    @Size(min = 1, max = 25, message="Name must be within 25 characters")
     @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
     private String name;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message="Email must not be empty")
+    @NotEmpty(message="Email must not be empty")
     @Email
     private String email;
 
-    @NotNull
-    @Size(min = 8, max = 10)//Changed the conditions to minimum 8 numbers, and maximum of 10 numbers
-    @Digits(fraction = 0, integer = 10)//Integer=10(maximum 10 digits), fraction=0(only integers allowed)
+    @NotNull(message="Phone Number must not be empty")
+    //Customized message with the assumption that this web app is launched for targeted users.
+    @Size(min = 8, max = 10, message = "Phone number must be between 8 to 10")//Changed the conditions to minimum 8 numbers, and maximum of 10 numbers
+    @Digits(fraction = 0, integer = 10, message = "Invalid phone number(exlcude symbols)")//Integer=10(maximum 10 digits), fraction=0(only integers allowed)
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -67,10 +68,9 @@ public class Member implements Serializable {
     @Size(min = 6, max = 10)
     private String username;
 
-    @NotNull
-    @Size(min = 10, message = "Password length must be at least 10")//minimum of 10 characters for password for security
+    @NotNull(message="Password field must not be empty")
     //Password constraints having at least one uppercase letter, one special character, and one number. (variation for security)
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[!@#$&*-_])(?=.*[0-9]).{8,}$", message = "Password must have an uppercase letter, special character, and number")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[!@#$&*-_])(?=.*[0-9]).{10,}$", message = "Password requirements: min 10 characters, an uppercase letter, special character, and number")
     private String password;
 
     //getters & setters

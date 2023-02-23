@@ -147,9 +147,9 @@ public class MemberResourceRESTService {
         }
         
         // Check the uniqueness of username
-        if (usernameAlreadyExists(member.getUsername()) ) {
-        	throw new ValidationException("Unique Username Violation");
-        }
+//        if (usernameAlreadyExists(member.getUsername()) ) {
+//        	throw new ValidationException("Unique Username Violation");
+//        }
     }
 
     /**

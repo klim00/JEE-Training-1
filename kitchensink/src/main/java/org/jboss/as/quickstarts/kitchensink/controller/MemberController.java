@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
+import org.jboss.as.quickstarts.kitchensink.rest.MemberResourceRESTService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -46,6 +47,8 @@ public class MemberController {
     private MemberRegistration memberRegistration;
     
     @Inject
+    private MemberResourceRESTService MemReRService;
+    @Inject
     private MemberLogin memberLogin;
     
     @Produces
@@ -58,7 +61,7 @@ public class MemberController {
     }
     
     //String variables to record user input
-    @NotNull
+    @NotNull(message="Retype password for validation")
     private String passwordVal;
 
     //Click determines which messages field to show
@@ -68,21 +71,32 @@ public class MemberController {
     	try {
             //Render Logic button's messages field false so general message does not show beside Logic button
         	memberLogin.setClick(false);
-            //Render Register button's messages field true general message shows beside Register button
-        	click = true;
+        	
+        	//Check and return error message if email exists in database
+            if(MemReRService.emailAlreadyExists(newMember.getEmail())) {
+            	FacesContext.getCurrentInstance().addMessage("reg:email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Email already exists!"));
+            }
+            
+            //Check and return error message if username exists in database
+            if(MemReRService.usernameAlreadyExists(newMember.getUsername())) {
+            	FacesContext.getCurrentInstance().addMessage("reg:username", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Username already exists!"));
+            }
+            
             memberRegistration.register(newMember);
+            
             // check if retyped password matches (retyped password implemented to ensure user inputs the password intended since input cannot be directly viewed by user)
         	if (!passwordVal.equals(newMember.getPassword())) {
                 //Lets user know retyped password does not match
             	FacesContext.getCurrentInstance().addMessage("reg:passwordVal", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Password does not match"));
-            	//Exception thrown so that it does not show Registered! message.
-                throw new Exception("Password Violation");
         	}
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
-            facesContext.addMessage(null, m);
-            initNewMember();
+        	else {
+        		//Render Register button's messages field true general message shows beside Register button
+            	click = true;
+	            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
+	            facesContext.addMessage(null, m);
+	            initNewMember();
+        	}
         } catch (Exception e) {
-        	log.info("here");
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");
             facesContext.addMessage(null, m);

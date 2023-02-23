@@ -19,6 +19,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
     template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h1>Welcome to JBoss!</h1>
@@ -30,33 +31,45 @@
 
         <h:form id="reg">
             <h2>Member Registration</h2>
-            <h:panelGrid columns="3" columnClasses="titleCell">
+            <h:panelGrid columns="2" columnClasses="titleCell">
                 <h:outputLabel for="name" value="Name:" />
                 <h:inputText id="name" value="#{newMember.name}" />
-                <h:message for="name" errorClass="invalid" />
+               	
+               	<h:inputHidden/>
+                <h:message for="name" errorClass="invalid" style = "position:relative; top:-10px;"/>
 
                 <h:outputLabel for="email" value="Email:" />
                 <h:inputText id="email" value="#{newMember.email}" />
-                <h:message for="email" errorClass="invalid" />
+                
+                <h:inputHidden/>
+                <h:message for="email" errorClass="invalid" style = "position:relative; top:-10px;"/>
 
                 <h:outputLabel for="phoneNumber" value="Phone #:" />
-                <h:inputText id="phoneNumber"
-                    value="#{newMember.phoneNumber}" />
-                <h:message for="phoneNumber" errorClass="invalid" />
+                <h:inputText id="phoneNumber" type="Number"
+                    value="#{newMember.phoneNumber}" maxlength="10"></h:inputText>
+                
+                <h:inputHidden/>
+                <h:message for="phoneNumber" errorClass="invalid" style = "position:relative; top:-10px;"/>
                 
                 <h:outputLabel for="username" value="Username:" />
                 <h:inputText id="username"
                     value="#{newMember.username}" />
-                <h:message for="username" errorClass="invalid" />
+                
+                <h:inputHidden/>
+                <h:message for="username" errorClass="invalid" style = "position:relative; top:-10px;"/>
                 
                 <h:outputLabel for="password" value="Password:" />
                 <h:inputSecret id="password"
                     value="#{newMember.password}" />
-                <h:message for="password" errorClass="invalid" />
                 
-                <h:outputLabel for="passwordVal" value="Password:" />
+                <h:inputHidden/>
+                <h:message for="password" errorClass="invalid" style = "position:relative; top:-10px;"/>
+                
+                <h:outputLabel for="passwordVal" value="Retype Password:" />
                 <h:inputSecret id="passwordVal"
                     value="#{memberController.passwordVal}" />
+                
+                <h:inputHidden/>
                 <h:message for="passwordVal" errorClass="invalid" />
             </h:panelGrid>
 
