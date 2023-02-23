@@ -42,6 +42,7 @@ public class MemberRegistration {
     private Event<Member> memberEventSrc;
 
     public void register(Member member) throws Exception {
+        //If and only if retyped password matches password, member is verified to go through registration process.
     	if (memberController.getPasswordVal().equals(member.getPassword())) {
     		log.info("Registering " + member.getUsername());
             em.persist(member);

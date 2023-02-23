@@ -43,7 +43,6 @@ import jakarta.ws.rs.core.Response;
 import org.jboss.as.quickstarts.kitchensink.data.MemberRepository;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
-import org.jboss.as.quickstarts.kitchensink.controller.MemberController;
 
 /**
  * JAX-RS Example
@@ -66,8 +65,6 @@ public class MemberResourceRESTService {
     @Inject
     MemberRegistration registration;
     
-    @Inject
-    MemberController memberController;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Member> listAllMembers() {
@@ -135,11 +132,7 @@ public class MemberResourceRESTService {
      * @throws ConstraintViolationException If Bean Validation errors exist
      * @throws ValidationException If member with the same email/username already exists
      */
-    private void validateMember(Member member) throws Exception, ConstraintViolationException, ValidationException {
-        if(!memberController.getPasswordVal().equals(member.getPassword()))
-        {
-        	throw new Exception("Password Violation");
-        }
+    private void validateMember(Member member) throws ConstraintViolationException, ValidationException {
     	
     	// Create a bean validator and check for issues.
         Set<ConstraintViolation<Member>> violations = validator.validate(member);

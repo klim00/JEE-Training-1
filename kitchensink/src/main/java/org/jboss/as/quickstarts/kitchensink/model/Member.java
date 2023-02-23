@@ -36,6 +36,7 @@ import jakarta.validation.constraints.NotEmpty;
 @SuppressWarnings("serial")
 @Entity
 @XmlRootElement
+//Two separate unique contraints email and username - ensure no duplicates of email or username in database
 @Table(uniqueConstraints = {
 		@UniqueConstraint(columnNames = "email"),
 		@UniqueConstraint(columnNames = "username")
@@ -57,8 +58,8 @@ public class Member implements Serializable {
     private String email;
 
     @NotNull
-    @Size(min = 8, max = 10)
-    @Digits(fraction = 0, integer = 10)
+    @Size(min = 8, max = 10)//Changed the conditions to minimum 8 numbers, and maximum of 10 numbers
+    @Digits(fraction = 0, integer = 10)//Integer=10(maximum 10 digits), fraction=0(only integers allowed)
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -67,10 +68,12 @@ public class Member implements Serializable {
     private String username;
 
     @NotNull
-    @Size(min = 10, message = "Password length must be at least 10")
+    @Size(min = 10, message = "Password length must be at least 10")//minimum of 10 characters for password for security
+    //Password constraints having at least one uppercase letter, one special character, and one number. (variation for security)
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[!@#$&*-_])(?=.*[0-9]).{8,}$", message = "Password must have an uppercase letter, special character, and number")
     private String password;
 
+    //getters & setters
     public Long getId() {
         return id;
     }

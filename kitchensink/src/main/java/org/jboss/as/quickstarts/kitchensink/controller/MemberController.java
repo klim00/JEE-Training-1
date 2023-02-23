@@ -57,18 +57,26 @@ public class MemberController {
         newMember = new Member();
     }
     
+    //String variables to record user input
     @NotNull
     private String passwordVal;
+
+    //Click determines which messages field to show
     private boolean click = false;
     
     public void register() throws Exception {
     	try {
+            //Render Logic button's messages field false so general message does not show beside Logic button
         	memberLogin.setClick(false);
+            //Render Register button's messages field true general message shows beside Register button
         	click = true;
             memberRegistration.register(newMember);
+            // check if retyped password matches (retyped password implemented to ensure user inputs the password intended since input cannot be directly viewed by user)
         	if (!passwordVal.equals(newMember.getPassword())) {
+                //Lets user know retyped password does not match
             	FacesContext.getCurrentInstance().addMessage("reg:passwordVal", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Password does not match"));
-            	throw new Exception("Password Violation");
+            	//Exception thrown so that it does not show Registered! message.
+                throw new Exception("Password Violation");
         	}
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
@@ -100,6 +108,7 @@ public class MemberController {
         return errorMessage;
     }
 
+    //getters & setters
     public String getPasswordVal() {
         return passwordVal;
     }
