@@ -90,7 +90,8 @@ public class MemberController {
             	FacesContext.getCurrentInstance().addMessage("reg:passwordVal", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Password does not match"));
         	}
         	else {
-        		//Render Register button's messages field true general message shows beside Register button
+        		//Render Register button's messages field true general message shows beside Register button 
+        		//positioned here to avoid showing unique constraint's message that is not user-friendly
             	click = true;
 	            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
 	            facesContext.addMessage(null, m);
