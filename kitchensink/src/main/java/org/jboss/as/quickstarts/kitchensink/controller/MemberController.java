@@ -23,8 +23,9 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.validation.constraints.NotNull;
 import java.util.logging.Logger;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
@@ -61,7 +62,8 @@ public class MemberController {
     }
     
     //String variables to record user input
-    @NotNull(message="Retype password for validation")
+    @NotNull
+    @NotEmpty(message="Retype password for validation")
     private String passwordVal;
 
     //Click determines which messages field to show

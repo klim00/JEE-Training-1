@@ -43,6 +43,7 @@ import jakarta.ws.rs.core.Response;
 import org.jboss.as.quickstarts.kitchensink.data.MemberRepository;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
+import org.jboss.as.quickstarts.kitchensink.controller.MemberLogin;
 
 /**
  * JAX-RS Example
@@ -65,21 +66,42 @@ public class MemberResourceRESTService {
     @Inject
     MemberRegistration registration;
     
+    @Inject
+    MemberLogin login;
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Member> listAllMembers() {
-        return repository.findAllOrderedByName();
+    	//check if login button is clicked and authentication is success
+    	if(login.getClick() && login.isMember()) {
+    		//set the conditions back to false, user has to log in again to view(If previous page button clicked/open new tab to run the page/refresh page)
+    		login.setClick(false);
+    		login.setIsMember(false);
+    		return repository.findAllOrderedByName();
+    	}else {
+    		//Reject or deny access to manual get request/access to page
+    		throw new WebApplicationException(Response.Status.FORBIDDEN);
+    	}
     }
 
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Member lookupMemberById(@PathParam("id") long id) {
-        Member member = repository.findById(id);
-        if (member == null) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
-        }
-        return member;
+    	//check if login button is clicked and authentication is success
+    	if(login.getClick() && login.isMember()) {
+    		//set the conditions back to false, user has to log in again to view(If previous page button clicked/open new tab to run the page/refresh page)
+    		login.setClick(false);
+    		login.setIsMember(false);
+	        Member member = repository.findById(id);
+	        if (member == null) {
+	            throw new WebApplicationException(Response.Status.NOT_FOUND);
+	        }
+	        return member;
+    	}else {
+    		//Reject or deny access to manual get request/access to page
+    		throw new WebApplicationException(Response.Status.FORBIDDEN);
+    	}
     }
     
     /**

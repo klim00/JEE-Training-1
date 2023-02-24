@@ -51,7 +51,7 @@
                 <h:inputHidden/>
                 <h:message for="phoneNumber" errorClass="invalid" style = "position:relative; top:-10px;"/>
                 
-                <h:outputLabel for="username" value="Username:" />
+                <h:outputLabel for="username" value="Username:" maxlength="25"/>
                 <h:inputText id="username"
                     value="#{newMember.username}" />
                 
@@ -70,7 +70,7 @@
                     value="#{memberController.passwordVal}" />
                 
                 <h:inputHidden/>
-                <h:message for="passwordVal" errorClass="invalid" />
+                <h:message for="passwordVal" errorClass="invalid" style = "position:relative; top:-10px;"/>
             </h:panelGrid>
 
             <p>

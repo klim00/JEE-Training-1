@@ -1,21 +1,23 @@
-/**New file created to controll and manage user login input**/
+/**New file created to control and manage user login input**/
 
 package org.jboss.as.quickstarts.kitchensink.controller;
 
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.context.ExternalContext;
-import jakarta.enterprise.context.RequestScoped;
+//import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.util.logging.Logger;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.ejb.Stateless;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.data.MemberRepository;
 
 @Named
-@RequestScoped
-
+@Stateless
 public class MemberLogin{
 	
 	@Inject
@@ -31,11 +33,19 @@ public class MemberLogin{
     private MemberController memberController;
     
     //String variables to record user input
+    @NotNull
+    @NotEmpty
     private String username;
+    
+    @NotNull
+    @NotEmpty
     private String password;
 
     //Click determines which messages field to show
     private boolean click = false;
+    
+    //Flag for member authentication 
+    private boolean isMember = false;
     
     public void authenticate() throws Exception {
         try {
@@ -48,6 +58,8 @@ public class MemberLogin{
             if(member!=null && password.equals(member.getPassword()))//if username input is in database, verify if password is equal/correct
             {
                 //Username is valid, password matches, directs user to JSON database page
+            	isMember = true;
+            	log.info("."+(click && isMember));
             	ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                 ec.redirect(ec.getRequestContextPath() + "/rest/members");
             }else{
@@ -85,5 +97,13 @@ public class MemberLogin{
     
     public void setClick(boolean click) {
     	this.click = click;
+    }
+    
+    public boolean isMember() {
+    	return isMember;
+    }
+    
+    public void setIsMember(boolean isMember) {
+    	this.isMember = isMember;
     }
 }
